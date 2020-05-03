@@ -30,7 +30,7 @@ async function drawLineChart() {
     .attr("height", dimensions.boundedHeight- freezingTemperaturePlacement)
     .attr("fill", "#e0f3f3")
 
-  const xScale = d3.scaleLinear()
+  const xScale = d3.scaleTime()
       .domain(d3.extent(dataset, xAccessor))
       .range([0, dimensions.boundedWidth]);
 
@@ -43,6 +43,14 @@ async function drawLineChart() {
     .attr("fill", "none")
     .attr("stroke", "#af9358")
     .attr("stroke-width", 2)
+
+  const yAxisGenerator = d3.axisLeft().scale(yScale);
+  const xAxisGenerator = d3.axisBottom().scale(xScale);
+
+  const yAxis = bounds.append("g").call(yAxisGenerator)
+  const xAxis = bounds.append("g")
+    .call(xAxisGenerator)
+    .style("transform", `translateY(${dimensions.boundedHeight}px)`)
 }
 
 function calculateChartDimensions() {
