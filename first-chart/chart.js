@@ -33,6 +33,16 @@ async function drawLineChart() {
   const xScale = d3.scaleLinear()
       .domain(d3.extent(dataset, xAccessor))
       .range([0, dimensions.boundedWidth]);
+
+  const lineGenerator = d3.line()
+      .x(d => xScale(xAccessor(d)))
+      .y(d => yScale(yAccessor(d)))
+  
+  const line = bounds.append("path")
+    .attr("d", lineGenerator(dataset))
+    .attr("fill", "none")
+    .attr("stroke", "#af9358")
+    .attr("stroke-width", 2)
 }
 
 function calculateChartDimensions() {
