@@ -30,3 +30,5 @@ Render your axes, labels, and legends
 **7. Set up interactions**
 
 Initialize event listeners and create interaction behavior
+
+![](chart_drawing_checklist.png)
