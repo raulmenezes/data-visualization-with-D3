@@ -63,7 +63,6 @@ async function drawScatter() {
         .attr("r", 5)
         .attr("fill", color)
   }
-  drawDots(dataset, "cornflowerblue");
 
   const xAxisGenerator = d3.axisBottom().scale(xScale);
 
@@ -92,6 +91,14 @@ async function drawScatter() {
     .html("Humidity")
     .style("transform", "rotate(-90deg)")
     .style("text-anchor", "middle")
+
+  const colorAccessor = d => d.cloudCover;
+
+  const colorScale = d3.scaleLinear()
+    .domain(d3.extent(dataset, colorAccessor))
+    .range(["skyblue", "darkslategrey"])
+  
+  drawDots(dataset, d => colorScale(colorAccessor(d)));
 }
 
 drawScatter();
