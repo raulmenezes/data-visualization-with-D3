@@ -32,3 +32,5 @@ Render your axes, labels, and legends
 Initialize event listeners and create interaction behavior
 
 ![](chart_drawing_checklist.png)
+
+![](svg_elements_cheat_sheet.png)
