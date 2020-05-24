@@ -10,7 +10,7 @@ async function drawBarChart() {
 	const width = 600;
 	let dimensions = {
 		width: width,
-		height: width * 0.6,
+		height: width,
 		margin: {
 			top: 30,
 			right: 10,
@@ -85,6 +85,23 @@ async function drawBarChart() {
 		.attr("fill", "darkgrey")
 		.style("font-size", "12px")
 		.style("font-family", "sans-serif")
+
+	const mean = d3.mean(dataset, metricAccessor)
+
+	const meanLine = bounds.append('line')
+		.attr("x1", xScale(mean))
+		.attr("x2", xScale(mean))
+		.attr("y1", 12)
+		.attr("y2", dimensions.boundedHeight)
+		.attr("stroke", "maroon")
+		.attr("stroke-dasharray", "2px 4px")
+
+	const meanText = bounds.append('text')
+		.text('mean')
+		.attr("x", xScale(mean))
+		.attr("y", 10)
+		.attr("fill", "maroon")
+		.style("text-anchor", "middle")
 }
 
 drawBarChart();
