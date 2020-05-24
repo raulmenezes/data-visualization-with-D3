@@ -75,6 +75,16 @@ async function drawBarChart() {
 		]))
 		.attr('height', d => dimensions.boundedHeight - yScale(yAccessor(d)))
 		.attr("fill", "cornflowerblue")
+	
+	const binText = binGroups.filter(yAccessor)
+		.append('text')
+		.attr("x", d => xScale(d.x0) + (xScale(d.x1) - xScale(d.x0)) / 2)
+		.attr("y", d => yScale(yAccessor(d)) - 5)
+		.text(yAccessor)
+		.style("text-anchor", "middle")
+		.attr("fill", "darkgrey")
+		.style("font-size", "12px")
+		.style("font-family", "sans-serif")
 }
 
 drawBarChart();
