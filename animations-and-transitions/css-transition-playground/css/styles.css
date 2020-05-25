@@ -1,5 +1,27 @@
+/* .box {
+  background: cornflowerblue;
+  height: 100px;
+  width: 100px;
+  transition-duration: 1s;
+} */
+
+.box:hover {
+  background: yellowgreen;
+  transform: translateX(30px);
+}
+
+/* 
+  Animate our box’s movement, but we want the 
+  color change to happen instantaneously
+*/
+
+/* 
+transition-duration and transition-property separately, 
+we can use the shorthand property: transition.
+*/
 .box {
   background: cornflowerblue;
   height: 100px;
   width: 100px;
+  transition: transform 1s;
 }
