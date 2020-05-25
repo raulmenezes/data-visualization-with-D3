@@ -46,7 +46,7 @@ async function drawBarChart() {
 		.domain(xScale.domain())
 		.value(metricAccessor)
 		.thresholds(12);
-		// .thresholds([0, 0.2, 0.4, 0.6, 0.8, 1]);
+	// .thresholds([0, 0.2, 0.4, 0.6, 0.8, 1]);
 
 	const bins = binGenerator(dataset);
 
@@ -56,14 +56,22 @@ async function drawBarChart() {
 		.range([dimensions.boundedHeight, 0])
 		.nice();
 
-	const binsGroup = bounds.append('g');
+	const binsGroup = bounds.append('g')
+		.attr("tabindex", "0")
+		.attr("role", "list")
+		.attr("aria-label", "histogram bars")
 
 	// Create one new <g> element for each bin.
 	// We’re going to place our bars within this group.
 	const binGroups = binsGroup.selectAll('g')
 		.data(bins)
 		.enter().append("g")
-
+		.attr("tabindex", "0")
+		.attr("role", "listitem")
+		.attr("aria-label", d => `There were ${yAccessor(d)
+			} days between ${d.x0.toString().slice(0, 4)
+			} and ${d.x1.toString().slice(0, 4)
+			} humidity levels.`)
 	const barPadding = 1
 
 	const binRects = binGroups.append('rect')
@@ -75,7 +83,7 @@ async function drawBarChart() {
 		]))
 		.attr('height', d => dimensions.boundedHeight - yScale(yAccessor(d)))
 		.attr("fill", "cornflowerblue")
-	
+
 	const binText = binGroups.filter(yAccessor)
 		.append('text')
 		.attr("x", d => xScale(d.x0) + (xScale(d.x1) - xScale(d.x0)) / 2)
@@ -105,17 +113,29 @@ async function drawBarChart() {
 
 	const xAxisGenerator = d3.axisBottom()
 		.scale(xScale)
-		
+
 	const xAxis = bounds.append("g")
 		.call(xAxisGenerator)
 		.style("transform", `translateY(${dimensions.boundedHeight}px)`)
 
 	const xAxisLabel = bounds.append('text')
 		.attr('x', dimensions.boundedWidth / 2)
-		.attr('y', dimensions.boundedHeight + dimensions.margin.bottom )
+		.attr('y', dimensions.boundedHeight + dimensions.margin.bottom)
 		.attr("fill", "black")
 		.style("font-size", "1.4em")
 		.text("Humidity")
+
+	// Adding Accessibility 
+	wrapper.attr("role", "figure")
+		.attr("tabindex", "0")
+
+	wrapper.append("title")
+		.text("Histogram looking at the distribution of humidity in 2016")
+
+	// Prevent screen reader reading each of our x-axis tick labels once it’s done reading our <title> 
+	wrapper.selectAll("text")
+		.attr("role", "presentation")
+		.attr("aria-hidden", "true")
 }
 
 drawBarChart();
